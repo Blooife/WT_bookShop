@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Command to show list of products
  */

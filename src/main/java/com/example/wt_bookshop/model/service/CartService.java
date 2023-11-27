@@ -6,7 +6,7 @@ import com.example.wt_bookshop.model.exceptions.ServiceException;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public interface CartService {
@@ -28,10 +28,10 @@ public interface CartService {
     void add(Cart cart, Long productId, int quantity, HttpSession currentSession) throws OutOfStockException, ServiceException;
 
     /**
-     * Update phone in cart
+     * Update book in cart
      * @param cart cart to update
-     * @param productId id of phone to update
-     * @param quantity quantity of phone to update
+     * @param productId id of book to update
+     * @param quantity quantity of book to update
      * @param currentSession session with cart
      * @throws OutOfStockException throws when phone out of stock when updating
      */
@@ -39,9 +39,9 @@ public interface CartService {
     void update(Cart cart, Long productId, int quantity, HttpSession currentSession) throws OutOfStockException, ServiceException;
 
     /**
-     * Delete phone from cart
+     * Delete book from cart
      * @param cart cart to delete
-     * @param productId id of phone to delete
+     * @param productId id of book to delete
      * @param currentSession session with cart
      */
 
@@ -63,7 +63,7 @@ public interface CartService {
     /**
      * Remove item from cart
      * @param currentSession session with cart
-     * @param phoneId id of phone to remove
+     * @param phoneId id of book to remove
      */
 
     void remove(HttpSession currentSession, Long phoneId);

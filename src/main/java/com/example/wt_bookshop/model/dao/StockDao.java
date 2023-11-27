@@ -3,12 +3,12 @@ package com.example.wt_bookshop.model.dao;
 import com.example.wt_bookshop.model.exceptions.DaoException;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public interface StockDao {
     /**
-     * Find available stock of phone
+     * Find available stock of book
      *
      * @param bookId id of book
      * @return available stock
@@ -17,7 +17,7 @@ public interface StockDao {
     Integer availableStock(Long bookId) throws DaoException;
 
     /**
-     * Update reserve of phones in database
+     * Update reserve of books in database
      *
      * @param bookId  - book to update
      * @param quantity - quantity to add in reserve field

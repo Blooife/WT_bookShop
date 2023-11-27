@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public interface BookDao {
     /**
-     * Find phone by id
+     * Find book by id
      *
      * @param key id of phone
-     * @return phone with id
+     * @return book with id
      * @throws DaoException throws when there is some errors during dao method execution
      */
     Optional<Book> get(Long key) throws DaoException;
@@ -25,12 +25,12 @@ public interface BookDao {
     /**
      * Find phones from database
      *
-     * @param offset    - offset of found phones
-     * @param limit     - limit of found phones
-     * @param sortField - field to sort (model, brand, price, display size)
+     * @param offset    - offset of found books
+     * @param limit     - limit of found books
+     * @param sortField - field to sort (bookName, author, price, releaseYear)
      * @param sortOrder - sort order (asc or desc)
      * @param query     - query for find
-     * @return List of phones
+     * @return List of books
      * @throws DaoException throws when there is some errors during dao method execution
      */
 

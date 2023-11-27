@@ -1,7 +1,7 @@
 package com.example.wt_bookshop.model.exceptions;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Exception in layer of services
  */

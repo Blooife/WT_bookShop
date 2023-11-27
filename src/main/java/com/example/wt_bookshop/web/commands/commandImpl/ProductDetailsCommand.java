@@ -10,7 +10,7 @@ import com.example.wt_bookshop.web.exceptions.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Command to get product details page
  */
@@ -19,7 +19,7 @@ public class ProductDetailsCommand implements ICommand {
     private static final String BOOK_ATTRIBUTE = "book";
 
     /**
-     * Return product details page of current phone
+     * Return product details page of current book
      * @param request http request
      * @return product details page jsp path
      * @throws CommandException throws when there is some errors during command execution

@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Command to delete cart item
  */

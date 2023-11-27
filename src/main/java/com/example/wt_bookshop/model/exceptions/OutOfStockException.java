@@ -3,7 +3,7 @@ package com.example.wt_bookshop.model.exceptions;
 import com.example.wt_bookshop.model.entities.book.Book;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public class OutOfStockException extends Exception {

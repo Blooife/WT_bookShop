@@ -1,20 +1,20 @@
 package com.example.wt_bookshop.model.enums;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public enum SortField {
     /**
-     * Field of brand to sort
+     * Field of bookName to sort
      */
     bookName,
     /**
-     * Field of model to sort
+     * Field of author to sort
      */
     author,
     /**
-     * Field of display size to sort
+     * Field of releaseYear size to sort
      */
     releaseYear,
     /**

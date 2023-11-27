@@ -4,7 +4,7 @@ import com.example.wt_bookshop.web.exceptions.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Interface of all commands
  */

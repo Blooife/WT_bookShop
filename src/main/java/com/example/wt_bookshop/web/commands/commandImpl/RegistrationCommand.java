@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Command to register new user
  */

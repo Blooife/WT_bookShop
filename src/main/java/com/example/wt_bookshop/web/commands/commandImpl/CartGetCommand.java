@@ -8,7 +8,7 @@ import com.example.wt_bookshop.web.exceptions.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * @author nekit
+ * @author sahsa
  * @version 1.0
  * Command to get cart jsp
  */

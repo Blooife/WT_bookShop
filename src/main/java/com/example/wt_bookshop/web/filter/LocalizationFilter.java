@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * Support localization
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public class LocalizationFilter implements Filter {

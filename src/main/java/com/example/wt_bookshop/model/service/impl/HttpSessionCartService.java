@@ -19,7 +19,7 @@ import java.util.Optional;
 /**
  * Service to work with cart
  *
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public class HttpSessionCartService implements CartService {
@@ -36,7 +36,7 @@ public class HttpSessionCartService implements CartService {
      */
     private static volatile HttpSessionCartService instance;
     /**
-     * Instance of PhoneDao
+     * Instance of BookDao
      */
     private BookDao bookDao;
     /**
@@ -94,8 +94,8 @@ public class HttpSessionCartService implements CartService {
      * Add Phone to cart
      *
      * @param cart           cart to adding
-     * @param productId      productId of phone to add
-     * @param quantity       quantity of phone to add
+     * @param productId      productId of book to add
+     * @param quantity       quantity of book to add
      * @param currentSession session with cart
      * @throws OutOfStockException throws when phone outOfStock
      * @throws ServiceException    throws when there is some errors during service method execution
@@ -128,10 +128,10 @@ public class HttpSessionCartService implements CartService {
     }
 
     /**
-     * Calculate quantity of phone with cart
+     * Calculate quantity of book with cart
      *
      * @param cart  cart with phones to recalculate
-     * @param book phone to recalculate
+     * @param book book to recalculate
      * @return available quantity of phone minus quantity of phone in cart
      */
     private int countingQuantityIncludingCart(Cart cart, Book book) throws ServiceException {
@@ -151,13 +151,13 @@ public class HttpSessionCartService implements CartService {
     }
 
     /**
-     * Update quantity of phone in cart
+     * Update quantity of book in cart
      *
      * @param cart           cart to update
-     * @param productId      id of phone to update
-     * @param quantity       quantity of phone to update
+     * @param productId      id of book to update
+     * @param quantity       quantity of book to update
      * @param currentSession session with cart
-     * @throws OutOfStockException throws when phone quantity out of stock during updating
+     * @throws OutOfStockException throws when book quantity out of stock during updating
      * @throws ServiceException    throws when there is some errors during service method execution
      */
     @Override
@@ -191,7 +191,7 @@ public class HttpSessionCartService implements CartService {
      * Delete item from cart
      *
      * @param cart           cart to delete
-     * @param productId      id of phone to delete
+     * @param productId      id of book to delete
      * @param currentSession session with cart
      */
     @Override
@@ -253,7 +253,7 @@ public class HttpSessionCartService implements CartService {
      * Remove item from cart
      *
      * @param currentSession session with cart
-     * @param phoneId        id of phone to remove
+     * @param phoneId        id of book to remove
      */
     @Override
     public void remove(HttpSession currentSession, Long phoneId) {

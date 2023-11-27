@@ -1,7 +1,7 @@
 package com.example.wt_bookshop.web.commands;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Enum of all commands name
  */

@@ -1,7 +1,7 @@
 package com.example.wt_bookshop.web;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Class contains all jsp paths
  */

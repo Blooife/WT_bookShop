@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * Using to manage orders
  *
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public class OrderServiceImpl implements OrderService {

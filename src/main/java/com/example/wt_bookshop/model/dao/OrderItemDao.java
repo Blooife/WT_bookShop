@@ -6,7 +6,7 @@ import com.example.wt_bookshop.model.exceptions.DaoException;
 import java.util.List;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public interface OrderItemDao {

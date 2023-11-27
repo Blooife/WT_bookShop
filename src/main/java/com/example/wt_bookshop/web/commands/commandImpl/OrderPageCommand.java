@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * @author nekit
+ * @author sasha
  * @version 1.0
  * Command to get order page, fill client data and place th order
  */
