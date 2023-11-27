@@ -1,8 +1,8 @@
 package com.example.wt_bookshop.web.commands.commandImpl;
 
-import com.example.wt_bookshop.model.dao.PhoneDao;
-import com.example.wt_bookshop.model.dao.impl.JdbcPhoneDao;
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.dao.BookDao;
+import com.example.wt_bookshop.model.dao.impl.JdbcBookDao;
+import com.example.wt_bookshop.model.entities.book.Book;
 import com.example.wt_bookshop.model.exceptions.DaoException;
 import com.example.wt_bookshop.web.JspPageName;
 import com.example.wt_bookshop.web.commands.ICommand;
@@ -15,8 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
  * Command to get product details page
  */
 public class ProductDetailsCommand implements ICommand {
-    private final PhoneDao phoneDao = JdbcPhoneDao.getInstance();
-    private static final String PHONE_ATTRIBUTE = "phone";
+    private final BookDao bookDao = JdbcBookDao.getInstance();
+    private static final String BOOK_ATTRIBUTE = "book";
 
     /**
      * Return product details page of current phone
@@ -26,18 +26,18 @@ public class ProductDetailsCommand implements ICommand {
      */
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
-        Phone phone;
+        Book book;
         try {
             if (request.getParameter("phone_id") == null){
-                phone = phoneDao.get(Long.parseLong(request.getAttribute("phone_id").toString())).orElse(null);
+                book = bookDao.get(Long.parseLong(request.getAttribute("phone_id").toString())).orElse(null);
             } else {
-                phone = phoneDao.get(Long.valueOf(request.getParameter("phone_id"))).orElse(null);
+                book = bookDao.get(Long.valueOf(request.getParameter("phone_id"))).orElse(null);
             }
         } catch (DaoException e) {
             throw new CommandException(e.getMessage());
         }
-        if (phone != null) {
-            request.setAttribute(PHONE_ATTRIBUTE, phone);
+        if (book != null) {
+            request.setAttribute(BOOK_ATTRIBUTE, book);
             return JspPageName.PRODUCT_PAGE;
         }
         else{

@@ -1,18 +1,18 @@
 package com.example.wt_bookshop.model.entities.stock;
 
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.entities.book.Book;
 
 public class Stock {
-    private Phone phone;
+    private Book book;
     private Integer stock;
     private Integer reserved;
 
-    public Phone getPhone() {
-        return phone;
+    public Book getPhone() {
+        return book;
     }
 
-    public void setPhone(Phone phone) {
-        this.phone = phone;
+    public void setPhone(Book book) {
+        this.book = book;
     }
 
     public Integer getStock() {

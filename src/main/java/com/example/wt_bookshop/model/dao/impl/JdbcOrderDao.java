@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * Using jdbc to work with order
  *
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public class JdbcOrderDao implements OrderDao {
@@ -48,7 +48,7 @@ public class JdbcOrderDao implements OrderDao {
     /**
      * SQL query for adding order items in database
      */
-    private static final String ADD_ORDER2ITEM = "INSERT INTO order2item (orderId, phoneId, quantity) " +
+    private static final String ADD_ORDER2ITEM = "INSERT INTO order2item (orderId, bookId, quantity) " +
             "VALUES (?, ?, ?)";
     /**
      * SQL query for get all orders from database
@@ -319,7 +319,7 @@ public class JdbcOrderDao implements OrderDao {
 
 
                 for (OrderItem orderItem : order.getOrderItems()) {
-                    addOrderItem(conn, orderId, orderItem.getPhone().getId(), orderItem.getQuantity());
+                    addOrderItem(conn, orderId, orderItem.getBook().getId(), orderItem.getQuantity());
                 }
                 log.log(Level.INFO, "Order save");
             }
@@ -346,14 +346,14 @@ public class JdbcOrderDao implements OrderDao {
      *
      * @param conn     connection to database
      * @param orderId  id of order
-     * @param phoneId  id of phone to add
+     * @param bookId  id of book to add
      * @param quantity quantity of phone to add
      * @throws SQLException exception throws when there were some problems during sql operation
      */
-    private void addOrderItem(Connection conn, Long orderId, Long phoneId, int quantity) throws SQLException {
+    private void addOrderItem(Connection conn, Long orderId, Long bookId, int quantity) throws SQLException {
         try (PreparedStatement statement = conn.prepareStatement(ADD_ORDER2ITEM)) {
             statement.setLong(1, orderId);
-            statement.setLong(2, phoneId);
+            statement.setLong(2, bookId);
             statement.setInt(3, quantity);
             statement.executeUpdate();
         }

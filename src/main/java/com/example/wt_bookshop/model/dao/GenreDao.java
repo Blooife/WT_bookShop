@@ -1,6 +1,6 @@
 package com.example.wt_bookshop.model.dao;
 
-import com.example.wt_bookshop.model.entities.color.Color;
+import com.example.wt_bookshop.model.entities.genre.Genre;
 import com.example.wt_bookshop.model.exceptions.DaoException;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author nekit
  * @version 1.0
  */
-public interface ColorDao {
+public interface GenreDao {
     /**
      * Extract Colors from dataBase
      *
@@ -17,5 +17,5 @@ public interface ColorDao {
      * @return List of colors
      * @throws DaoException throws when there is some errors during dao method execution
      */
-    List<Color> getColors(Long id) throws DaoException;
+    List<Genre> getColors(Long id) throws DaoException;
 }

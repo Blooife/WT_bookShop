@@ -1,8 +1,8 @@
-package com.example.wt_bookshop.model.entities.color;
+package com.example.wt_bookshop.model.entities.genre;
 
 import java.util.Objects;
 
-public class Color {
+public class Genre {
     private Long id;
     private String code;
 
@@ -22,10 +22,10 @@ public class Color {
         this.code = code;
     }
 
-    public Color() {
+    public Genre() {
     }
 
-    public Color(Long id, String code) {
+    public Genre(Long id, String code) {
         this.id = id;
         this.code = code;
     }
@@ -34,8 +34,8 @@ public class Color {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Color color = (Color) o;
-        return code.equals(color.code);
+        Genre genre = (Genre) o;
+        return code.equals(genre.code);
     }
 
     @Override

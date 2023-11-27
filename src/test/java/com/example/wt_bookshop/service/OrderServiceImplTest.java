@@ -3,7 +3,7 @@ package com.example.wt_bookshop.service;
 import com.example.wt_bookshop.model.entities.cart.Cart;
 import com.example.wt_bookshop.model.entities.cart.CartItem;
 import com.example.wt_bookshop.model.entities.order.Order;
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.entities.book.Book;
 import com.example.wt_bookshop.model.service.OrderService;
 import com.example.wt_bookshop.model.service.impl.OrderServiceImpl;
 import org.junit.After;
@@ -31,7 +31,7 @@ public class OrderServiceImplTest {
         cart.setTotalItems(3);
 
         List<CartItem> testList = new ArrayList<>();
-        testList.add(new CartItem(new Phone(), 2));
+        testList.add(new CartItem(new Book(), 2));
         cart.setItems(testList);
 
         Order order = orderService.createOrder(cart);
@@ -45,12 +45,12 @@ public class OrderServiceImplTest {
         cart.setTotalItems(1);
 
         List<CartItem> testList = new ArrayList<>();
-        testList.add(new CartItem(new Phone(), 2));
+        testList.add(new CartItem(new Book(), 2));
         cart.setItems(testList);
 
         Order order = orderService.createOrder(cart);
         for (int i = 0; i < order.getOrderItems().size(); i++) {
-            Assert.assertEquals(order.getOrderItems().get(i).getPhone(), cart.getItems().get(i).getPhone());
+            Assert.assertEquals(order.getOrderItems().get(i).getBook(), cart.getItems().get(i).getBook());
             Assert.assertEquals(order.getOrderItems().get(i).getQuantity(), cart.getItems().get(i).getQuantity());
         }
     }

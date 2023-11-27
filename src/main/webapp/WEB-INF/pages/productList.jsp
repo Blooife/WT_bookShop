@@ -4,12 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false"%>
 
-<jsp:useBean id="phones" scope="request" type="java.util.List"/>
+<jsp:useBean id="books" scope="request" type="java.util.List"/>
 <jsp:useBean id="numberOfPages" scope="request" type="java.lang.Long"/>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
-<tags:master pageTitle="Phohe List">
+<tags:master pageTitle="Book List">
   <fmt:setLocale value="${sessionScope.lang}"/>
   <fmt:setBundle basename="messages"/>
 
@@ -54,61 +54,61 @@
       <table class="table table-hover table-bordered text-center">
         <thead>
         <tr class="bg-light">
-          <td><fmt:message key="phone_image" /></td>
+          <td><fmt:message key="book_image" /></td>
           <td>
-            <fmt:message key="item_brand" />
-            <tags:sortLink sort="brand" order="asc"/><tags:sortLink sort="brand" order="desc"/>
+            <fmt:message key="book_name" />
+            <tags:sortLink sort="bookName" order="asc"/><tags:sortLink sort="bookName" order="desc"/>
           </td>
           <td>
-            <fmt:message key="item_model" />
-            <tags:sortLink sort="model" order="asc"/><tags:sortLink sort="model" order="desc"/>
+            <fmt:message key="book_author" />
+            <tags:sortLink sort="author" order="asc"/><tags:sortLink sort="author" order="desc"/>
           </td>
-          <td><fmt:message key="item_Color" /></td>
+          <td><fmt:message key="book_genres" /></td>
           <td>
-            <fmt:message key="item_Display_Size" />
-            <tags:sortLink sort="displaySizeInches" order="asc"/>
-            <tags:sortLink sort="displaySizeInches" order="desc"/>
+            <fmt:message key="book_publishing" />
+            <tags:sortLink sort="releaseYear" order="asc"/>
+            <tags:sortLink sort="releaseYear" order="desc"/>
           </td>
           <td>
-            <fmt:message key="item.price" />
+            <fmt:message key="book_price" />
             <tags:sortLink sort="price" order="asc"/>
             <tags:sortLink sort="price" order="desc"/>
           </td>
           <td><fmt:message key="table_action" /></td>
         </tr>
         </thead>
-        <c:forEach var="phone" items="${phones}">
+        <c:forEach var="book" items="${books}">
           <tr>
             <td class="align-middle">
-              <img class="rounded" src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${phone.imageUrl}">
+              <img class="rounded" src="/images/${book.imageUrl}">
             </td>
             <td class="align-middle">
               <form id="productFormBrand" action="/" method="GET">
                 <input type="hidden" name="command" value="product_details">
-                <input type="hidden" name="phone_id" value="${phone.id}">
+                <input type="hidden" name="phone_id" value="${book.id}">
                 <button type="submit">
-                    ${phone.brand}
+                    ${book.bookName}
                 </button>
               </form>
             </td>
             <td class="align-middle">
               <form id="productFormModel" action="/" method="GET">
                 <input type="hidden" name="command" value="product_details">
-                <input type="hidden" name="phone_id" value="${phone.id}">
+                <input type="hidden" name="phone_id" value="${book.id}">
                 <button type="submit">
-                    ${phone.model}
+                    ${book.author}
                 </button>
               </form>
             </td>
             <td class="align-middle">
               <ul>
-                <c:forEach var="color" items="${phone.colors}">
-                  <li>${color.code}</li>
+                <c:forEach var="genre" items="${book.genres}">
+                  <li>${genre.code}</li>
                 </c:forEach>
               </ul>
             </td>
-            <td class="align-middle">${phone.displaySizeInches}"</td>
-            <td class="align-middle">$ ${phone.price}</td>
+            <td class="align-middle">${book.releaseYear}"</td>
+            <td class="align-middle">$ ${book.price}</td>
             <td class="align-middle">
                       <c:choose>
                         <c:when test="${not empty sessionScope.login}">
@@ -120,13 +120,13 @@
                               <input type="hidden" name="command" value="authorisation">
                         </c:otherwise>
                       </c:choose>
-                <input type="hidden" name="id" value="${phone.id}">
+                <input type="hidden" name="id" value="${book.id}">
                 <input type="hidden" name="page_type" value="productList">
-                <input type="number" name="quantity" id="quantity${phone.id}" min="1" required>
+                <input type="number" name="quantity" id="quantity${book.id}" min="1" required>
                 <button class="btn btn-lg btn-outline-light text-dark border-dark float-right" type="submit" style="font-size: 14px"><fmt:message key="button_add" /></button>
               </form>
-                              <c:if test="${not empty inputErrors.get(phone.id)}">
-                                  <div class="error" style="color: red">${inputErrors[phone.id]}</div>
+                              <c:if test="${not empty inputErrors.get(book.id)}">
+                                  <div class="error" style="genre: red">${inputErrors[book.id]}</div>
                               </c:if>
             </td>
           </tr>

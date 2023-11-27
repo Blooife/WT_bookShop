@@ -1,30 +1,30 @@
 package com.example.wt_bookshop.model.entities.cart;
 
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.entities.book.Book;
 import com.example.wt_bookshop.model.exceptions.CloneException;
 
 import java.io.Serializable;
 
 public class CartItem implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
-    private Phone phone;
+    private Book book;
     private int quantity;
 
-    public CartItem(Phone product, int quantity) {
-        this.phone = product;
+    public CartItem(Book product, int quantity) {
+        this.book = product;
         this.quantity = quantity;
     }
 
-    public Phone getPhone() {
-        return phone;
+    public Book getBook() {
+        return book;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public void setPhone(Phone product) {
-        this.phone = product;
+    public void setBook(Book product) {
+        this.book = product;
     }
 
     public void setQuantity(int quantity) {
@@ -33,7 +33,7 @@ public class CartItem implements Serializable, Cloneable {
 
     @Override
     public String toString() {
-        return "code=" + phone.getId() +
+        return "code=" + book.getId() +
                 ", quantity=" + quantity;
     }
 
@@ -42,7 +42,7 @@ public class CartItem implements Serializable, Cloneable {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new CloneException("Error copying the product " + phone.getId() + "with quantity" + quantity);
+            throw new CloneException("Error copying the product " + book.getId() + "with quantity" + quantity);
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.example.wt_bookshop.model.dao;
 
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.entities.book.Book;
 import com.example.wt_bookshop.model.enums.SortField;
 import com.example.wt_bookshop.model.enums.SortOrder;
 import com.example.wt_bookshop.model.exceptions.DaoException;
@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author nekit
  * @version 1.0
  */
-public interface PhoneDao {
+public interface BookDao {
     /**
      * Find phone by id
      *
@@ -20,7 +20,7 @@ public interface PhoneDao {
      * @return phone with id
      * @throws DaoException throws when there is some errors during dao method execution
      */
-    Optional<Phone> get(Long key) throws DaoException;
+    Optional<Book> get(Long key) throws DaoException;
 
     /**
      * Find phones from database
@@ -34,7 +34,7 @@ public interface PhoneDao {
      * @throws DaoException throws when there is some errors during dao method execution
      */
 
-    List<Phone> findAll(int offset, int limit, SortField sortField, SortOrder sortOrder, String query) throws DaoException;
+    List<Book> findAll(int offset, int limit, SortField sortField, SortOrder sortOrder, String query) throws DaoException;
 
     /**
      * Number of founded phones

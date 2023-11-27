@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             for (OrderItem item : order.getOrderItems()) {
                 try {
-                    stockDao.reserve(item.getPhone().getId(), item.getQuantity());
+                    stockDao.reserve(item.getBook().getId(), item.getQuantity());
                 } catch (DaoException e) {
                     throw new ServiceException(e.getMessage());
                 }
@@ -148,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = cart.getItems().stream()
                 .map(cartItem -> {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setPhone(cartItem.getPhone());
+                    orderItem.setBook(cartItem.getBook());
                     orderItem.setQuantity(cartItem.getQuantity());
                     orderItem.setOrder(order);
                     return orderItem;
@@ -171,7 +171,7 @@ public class OrderServiceImpl implements OrderService {
 
         for (OrderItem item : order.getOrderItems()) {
             try {
-                if (stockDao.availableStock(item.getPhone().getId()) - item.getQuantity() < 0) {
+                if (stockDao.availableStock(item.getBook().getId()) - item.getQuantity() < 0) {
                     outOfStockItems.add(item);
                 }
             } catch (DaoException e) {
@@ -181,8 +181,8 @@ public class OrderServiceImpl implements OrderService {
         if (!outOfStockItems.isEmpty()) {
             StringBuilder outOfStockModels = new StringBuilder();
             outOfStockItems.stream().forEach(item -> {
-                outOfStockModels.append(item.getPhone().getModel() + "; ");
-                cartService.remove(session, item.getPhone().getId());
+                outOfStockModels.append(item.getBook().getAuthor() + "; ");
+                cartService.remove(session, item.getBook().getId());
             });
             throw new OutOfStockException("Some of items out of stock (" + outOfStockModels + "). They deleted from cart.");
         }

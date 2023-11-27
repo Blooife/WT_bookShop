@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * Using jdbc to work with stock
  *
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
 public class JdbcStockDao implements StockDao {
@@ -42,11 +42,11 @@ public class JdbcStockDao implements StockDao {
     /**
      * SQL query to find stock by id
      */
-    private static final String GET_STOCK_BY_ID = "SELECT * FROM stocks WHERE phoneId = ?";
+    private static final String GET_STOCK_BY_ID = "SELECT * FROM stocks WHERE bookId = ?";
     /**
      * SQL query to update reserved stock
      */
-    private static final String UPDATE_STOCK = "UPDATE stocks SET reserved = ? WHERE phoneId = ?";
+    private static final String UPDATE_STOCK = "UPDATE stocks SET reserved = ? WHERE bookId = ?";
 
     /**
      * Realisation of Singleton pattern
@@ -67,13 +67,13 @@ public class JdbcStockDao implements StockDao {
     /**
      * Find available stock in database
      *
-     * @param phoneId id of phone
+     * @param bookId id of book
      * @return available stock
      * @throws DaoException throws when there is some errors during dao method execution
      */
     @Override
-    public Integer availableStock(Long phoneId) throws DaoException {
-        Stock stock = getStock(phoneId);
+    public Integer availableStock(Long bookId) throws DaoException {
+        Stock stock = getStock(bookId);
         if (stock != null) {
             return stock.getStock() - stock.getReserved();
         } else {
@@ -84,13 +84,13 @@ public class JdbcStockDao implements StockDao {
     /**
      * Update reserve number of phones in database
      *
-     * @param phoneId  - phone to update
+     * @param bookId  - book to update
      * @param quantity - quantity to add in reserve field
      * @throws DaoException throws when there is some errors during dao method execution
      */
     @Override
-    public void reserve(Long phoneId, int quantity) throws DaoException {
-        Stock stock = getStock(phoneId);
+    public void reserve(Long bookId, int quantity) throws DaoException {
+        Stock stock = getStock(bookId);
         if (stock != null) {
             int newReserved = stock.getReserved() + quantity;
             Connection conn = null;
@@ -99,7 +99,7 @@ public class JdbcStockDao implements StockDao {
                 lock.writeLock().lock();
                 conn = connectionPool.getConnection();
                 statement = conn.prepareStatement(UPDATE_STOCK);
-                statement.setLong(2, phoneId);
+                statement.setLong(2, bookId);
                 statement.setLong(1, newReserved);
                 statement.execute();
                 log.log(Level.INFO, "Update reserve stock in the database");
@@ -125,18 +125,18 @@ public class JdbcStockDao implements StockDao {
     /**
      * Get stock of phone in database
      *
-     * @param phoneId id of phone
-     * @return stock of phone
+     * @param bookId id of book
+     * @return stock of book
      * @throws DaoException throws when there is some errors during dao method execution
      */
-    private Stock getStock(Long phoneId) throws DaoException {
+    private Stock getStock(Long bookId) throws DaoException {
         Stock stock = null;
         Connection conn = null;
         PreparedStatement statement = null;
         try {
             conn = connectionPool.getConnection();
             statement = conn.prepareStatement(GET_STOCK_BY_ID);
-            statement.setLong(1, phoneId);
+            statement.setLong(1, bookId);
             ResultSet resultSet = statement.executeQuery();
             stock = stocksExtractor.extractData(resultSet).get(0);
             log.log(Level.INFO, "Found stock by phoneId in the database");

@@ -32,16 +32,16 @@
                 <thead>
                 <tr class="bg-light">
                     <td>
-                        <fmt:message key="item_brand" />
+                        <fmt:message key="book_name" />
                     </td>
                     <td>
-                        <fmt:message key="item_model" />
+                        <fmt:message key="book_author" />
                     </td>
                     <td>
-                        <fmt:message key="item_Color" />
+                        <fmt:message key="book_genres" />
                     </td>
                     <td>
-                        <fmt:message key="item_Display_Size" />
+                        <fmt:message key="book_releaseYear" />
                     </td>
                     <td>
                         <fmt:message key="item_quantity" />
@@ -55,26 +55,26 @@
                 <c:forEach var="item" items="${order.orderItems}">
                     <tr>
                         <td class="align-middle">
-                                ${item.phone.brand}
+                                ${item.book.bookName}
                         </td>
                         <td class="align-middle">
-                                ${item.phone.model}
+                                ${item.book.author}
                         </td>
                         <td class="align-middle">
                             <ul>
-                                <c:forEach var="color" items="${item.phone.colors}">
-                                    <li>${color.code}</li>
+                                <c:forEach var="genre" items="${item.book.genres}">
+                                    <li>${genre.code}</li>
                                 </c:forEach>
                             </ul>
                         </td>
                         <td class="align-middle">
-                                ${item.phone.displaySizeInches}"
+                                ${item.book.releaseYear}"
                         </td>
                         <td class="align-middle">
                                 ${item.quantity}
                         </td>
                         <td class="align-middle">
-                                ${item.phone.price}
+                                ${item.book.price}
                         </td>
                     </tr>
                 </c:forEach>
@@ -125,7 +125,7 @@
                         <td>
                             <input name="firstName" placeholder="First name" required/>
                             <c:if test="${not empty errorsMap.get(Integer(1))}">
-                                <div class="error" style="color: red">${errorsMap.get(Integer(1))}</div>
+                                <div class="error" style="genre: red">${errorsMap.get(Integer(1))}</div>
                             </c:if>
                         </td>
                     </tr>
@@ -136,7 +136,7 @@
                         <td>
                             <input name="lastName" placeholder="Last name" required/>
                             <c:if test="${not empty errorsMap.get(Integer(2))}">
-                                <div class="error" style="color: red">${errorsMap.get(Integer(2))}</div>
+                                <div class="error" style="genre: red">${errorsMap.get(Integer(2))}</div>
                             </c:if>
                         </td>
                     </tr>
@@ -147,7 +147,7 @@
                         <td>
                             <input name="deliveryAddress" placeholder="Address" required/>
                             <c:if test="${not empty errorsMap.get(Integer(3))}">
-                                <div class="error" style="color: red">${errorsMap.get(Integer(3))}</div>
+                                <div class="error" style="genre: red">${errorsMap.get(Integer(3))}</div>
                             </c:if>
                         </td>
                     </tr>
@@ -158,7 +158,7 @@
                         <td>
                             <input name="contactPhoneNo" placeholder="+375296789012" required/>
                             <c:if test="${not empty errorsMap.get(Integer(4))}">
-                                <div class="error" style="color: red">${errorsMap.get(Integer(4))}</div>
+                                <div class="error" style="genre: red">${errorsMap.get(Integer(4))}</div>
                             </c:if>
                         </td>
                     </tr>

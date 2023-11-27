@@ -1,8 +1,8 @@
 package com.example.wt_bookshop.model.dao.impl;
 
-import com.example.wt_bookshop.model.dao.ColorDao;
-import com.example.wt_bookshop.model.entities.color.Color;
-import com.example.wt_bookshop.model.entities.color.ColorsExtractor;
+import com.example.wt_bookshop.model.dao.GenreDao;
+import com.example.wt_bookshop.model.entities.genre.Genre;
+import com.example.wt_bookshop.model.entities.genre.GenreExtractor;
 import com.example.wt_bookshop.model.exceptions.DaoException;
 import com.example.wt_bookshop.model.utils.ConnectionPool;
 import org.apache.log4j.Level;
@@ -17,42 +17,42 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Using jdbc to work with colors
+ * Using jdbc to work with genres
  *
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
-public class JdbcColorDao implements ColorDao {
+public class JdbcGenreDao implements GenreDao {
     /**
      * Field of logger
      */
-    private static final Logger log = Logger.getLogger(ColorDao.class);
+    private static final Logger log = Logger.getLogger(GenreDao.class);
     /**
-     * Extractor of colors
+     * Extractor of genres
      */
-    private final ColorsExtractor colorExtractor = new ColorsExtractor();
+    private final GenreExtractor colorExtractor = new GenreExtractor();
     /**
      * Instance of connection pool
      */
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
     /**
-     * SQL query for find colors
+     * SQL query for find genres
      */
-    private static final String GET_QUERY = "select COLORS.ID, COLORS.CODE " +
-            "from (select * from PHONE2COLOR where PHONEID = ?) p2c " +
-            "left join COLORS on p2c.COLORID = COLORS.ID order by COLORS.ID";
+    private static final String GET_QUERY = "select GENRE.ID, GENRE.CODE " +
+            "from (select * from BOOK2GENRE where BOOKID = ?) b2g " +
+            "left join GENRE on b2g.GENREID = GENRE.ID order by GENRE.ID";
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     /**
      * Get colors from database
      *
-     * @param id - id of phone
-     * @return List of colors
+     * @param id - id of book
+     * @return List of genres
      * @throws DaoException throws when there is some errors during dao method execution
      */
     @Override
-    public List<Color> getColors(Long id) throws DaoException {
-        List<Color> colors;
+    public List<Genre> getColors(Long id) throws DaoException {
+        List<Genre> genres;
         Connection conn = null;
         PreparedStatement statement = null;
         try {
@@ -61,7 +61,7 @@ public class JdbcColorDao implements ColorDao {
             statement = conn.prepareStatement(GET_QUERY);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            colors = colorExtractor.extractData(resultSet);
+            genres = colorExtractor.extractData(resultSet);
             log.log(Level.INFO, "Found colors in the database");
         } catch (SQLException ex) {
             log.log(Level.ERROR, "Error in getColors", ex);
@@ -80,7 +80,7 @@ public class JdbcColorDao implements ColorDao {
                 connectionPool.releaseConnection(conn);
             }
         }
-        return colors;
+        return genres;
     }
 
 }

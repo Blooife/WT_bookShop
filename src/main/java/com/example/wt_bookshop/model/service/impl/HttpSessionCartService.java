@@ -1,12 +1,12 @@
 package com.example.wt_bookshop.model.service.impl;
 
-import com.example.wt_bookshop.model.dao.PhoneDao;
+import com.example.wt_bookshop.model.dao.BookDao;
 import com.example.wt_bookshop.model.dao.StockDao;
-import com.example.wt_bookshop.model.dao.impl.JdbcPhoneDao;
+import com.example.wt_bookshop.model.dao.impl.JdbcBookDao;
 import com.example.wt_bookshop.model.dao.impl.JdbcStockDao;
 import com.example.wt_bookshop.model.entities.cart.Cart;
 import com.example.wt_bookshop.model.entities.cart.CartItem;
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.entities.book.Book;
 import com.example.wt_bookshop.model.exceptions.DaoException;
 import com.example.wt_bookshop.model.exceptions.OutOfStockException;
 import com.example.wt_bookshop.model.exceptions.ServiceException;
@@ -38,7 +38,7 @@ public class HttpSessionCartService implements CartService {
     /**
      * Instance of PhoneDao
      */
-    private PhoneDao phoneDao;
+    private BookDao bookDao;
     /**
      * Instance of StockDao
      */
@@ -65,7 +65,7 @@ public class HttpSessionCartService implements CartService {
      * Constructor of HttpSessionCartService
      */
     private HttpSessionCartService() {
-        phoneDao = JdbcPhoneDao.getInstance();
+        bookDao = JdbcBookDao.getInstance();
         stockDao = JdbcStockDao.getInstance();
     }
 
@@ -104,22 +104,22 @@ public class HttpSessionCartService implements CartService {
     public void add(Cart cart, Long productId, int quantity, HttpSession currentSession) throws OutOfStockException, ServiceException {
         Optional<CartItem> productMatch;
         synchronized (currentSession) {
-            Phone phone;
+            Book book;
             try {
-                phone = phoneDao.get(productId).orElse(null);
+                book = bookDao.get(productId).orElse(null);
             } catch (DaoException e) {
                 throw new ServiceException(e.getMessage());
             }
-            if (phone != null) {
-                if (countingQuantityIncludingCart(cart, phone) < quantity) {
-                    throw new OutOfStockException(phone, quantity, countingQuantityIncludingCart(cart, phone));
+            if (book != null) {
+                if (countingQuantityIncludingCart(cart, book) < quantity) {
+                    throw new OutOfStockException(book, quantity, countingQuantityIncludingCart(cart, book));
                 }
-                if ((productMatch = getCartItemMatch(cart, phone)).isPresent()) {
+                if ((productMatch = getCartItemMatch(cart, book)).isPresent()) {
                     cart.getItems().
                             get(cart.getItems().indexOf(productMatch.get())).
                             setQuantity(productMatch.get().getQuantity() + quantity);
                 } else {
-                    cart.getItems().add(new CartItem(phone, quantity));
+                    cart.getItems().add(new CartItem(book, quantity));
                     currentSession.setAttribute(CART_ATTRIBUTE, cart);
                 }
                 reCalculateCart(cart);
@@ -131,18 +131,18 @@ public class HttpSessionCartService implements CartService {
      * Calculate quantity of phone with cart
      *
      * @param cart  cart with phones to recalculate
-     * @param phone phone to recalculate
+     * @param book phone to recalculate
      * @return available quantity of phone minus quantity of phone in cart
      */
-    private int countingQuantityIncludingCart(Cart cart, Phone phone) throws ServiceException {
+    private int countingQuantityIncludingCart(Cart cart, Book book) throws ServiceException {
         int result = 0;
         try {
-            result = stockDao.availableStock(phone.getId());
+            result = stockDao.availableStock(book.getId());
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
         }
         Integer quantityInCart = cart.getItems().stream()
-                .filter(currProduct -> currProduct.getPhone().equals(phone))
+                .filter(currProduct -> currProduct.getBook().equals(book))
                 .map(CartItem::getQuantity)
                 .findFirst()
                 .orElse(0);
@@ -163,23 +163,23 @@ public class HttpSessionCartService implements CartService {
     @Override
     public void update(Cart cart, Long productId, int quantity, HttpSession currentSession) throws OutOfStockException, ServiceException {
         synchronized (currentSession) {
-            Phone phone;
+            Book book;
             try {
-                phone = phoneDao.get(productId).orElse(null);
+                book = bookDao.get(productId).orElse(null);
             } catch (DaoException e) {
                 throw new ServiceException(e.getMessage());
             }
-            if (phone != null) {
+            if (book != null) {
                 int availableStock = 0;
                 try {
-                    availableStock = stockDao.availableStock(phone.getId());
+                    availableStock = stockDao.availableStock(book.getId());
                 } catch (DaoException e) {
                     throw new ServiceException(e.getMessage());
                 }
                 if (quantity > availableStock) {
-                    throw new OutOfStockException(phone, quantity, availableStock);
+                    throw new OutOfStockException(book, quantity, availableStock);
                 }
-                getCartItemMatch(cart, phone).ifPresent(cartItem -> cart.getItems().
+                getCartItemMatch(cart, book).ifPresent(cartItem -> cart.getItems().
                         get(cart.getItems().indexOf(cartItem)).
                         setQuantity(quantity));
                 reCalculateCart(cart);
@@ -197,7 +197,7 @@ public class HttpSessionCartService implements CartService {
     @Override
     public void delete(Cart cart, Long productId, HttpSession currentSession) {
         synchronized (currentSession) {
-            cart.getItems().removeIf(item -> productId.equals(item.getPhone().getId()));
+            cart.getItems().removeIf(item -> productId.equals(item.getBook().getId()));
             reCalculateCart(cart);
         }
     }
@@ -218,7 +218,7 @@ public class HttpSessionCartService implements CartService {
         );
         for (CartItem item : cartToRecalculate.getItems()) {
             totalCost = totalCost.add(
-                    item.getPhone().getPrice().
+                    item.getBook().getPrice().
                             multiply(BigDecimal.valueOf(item.getQuantity())));
         }
         cartToRecalculate.setTotalCost(totalCost);
@@ -231,9 +231,9 @@ public class HttpSessionCartService implements CartService {
      * @param product product to find
      * @return cartItem
      */
-    private Optional<CartItem> getCartItemMatch(Cart cart, Phone product) {
+    private Optional<CartItem> getCartItemMatch(Cart cart, Book product) {
         return cart.getItems().stream().
-                filter(currProduct -> currProduct.getPhone().getId().equals(product.getId())).
+                filter(currProduct -> currProduct.getBook().getId().equals(product.getId())).
                 findAny();
     }
 
@@ -258,7 +258,7 @@ public class HttpSessionCartService implements CartService {
     @Override
     public void remove(HttpSession currentSession, Long phoneId) {
         Cart cart = getCart(currentSession);
-        cart.getItems().removeIf(item -> phoneId.equals(item.getPhone().getId()));
+        cart.getItems().removeIf(item -> phoneId.equals(item.getBook().getId()));
         reCalculateCart(cart);
     }
 }

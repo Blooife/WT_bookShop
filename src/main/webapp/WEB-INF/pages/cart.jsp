@@ -62,9 +62,9 @@
                     <table class="table table-hover table-bordered text-center">
                         <thead>
                         <tr class="bg-light">
-                            <th><fmt:message key="item_brand" /></th>
-                            <th><fmt:message key="item_model" /></th>
-                            <th><fmt:message key="item_Color" /></th>
+                            <th><fmt:message key="book_name" /></th>
+                            <th><fmt:message key="book_author" /></th>
+                            <th><fmt:message key="book_genres" /></th>
                             <th><fmt:message key="item.price" /></th>
                             <th><fmt:message key="item_quantity" /></th>
                             <th><fmt:message key="table_action" /></th>
@@ -72,25 +72,25 @@
                         </thead>
                         <c:forEach var="cartItem" items="${cart.items}">
                             <tr>
-                                <td>${cartItem.phone.brand}</td>
-                                <td>${cartItem.phone.model}</td>
+                                <td>${cartItem.book.bookName}</td>
+                                <td>${cartItem.book.author}</td>
                                 <td>
                                     <ul>
-                                        <c:forEach var="color" items="${cartItem.phone.colors}">
-                                            <li>${color.code}</li>
+                                        <c:forEach var="genre" items="${cartItem.book.genres}">
+                                            <li>${genre.code}</li>
                                         </c:forEach>
                                     </ul>
                                 </td>
-                                <td>$ ${cartItem.phone.price}</td>
+                                <td>$ ${cartItem.book.price}</td>
                                 <td>
                                     <input type="number" name="quantity" value="${cartItem.quantity}" min="1" required>
-                                    <c:if test="${not empty inputErrors.get(cartItem.phone.id)}">
-                                        <div class="error" style="color: red">${inputErrors.get(cartItem.phone.id)}</div>
+                                    <c:if test="${not empty inputErrors.get(cartItem.book.id)}">
+                                        <div class="error" style="genre: red">${inputErrors.get(cartItem.book.id)}</div>
                                     </c:if>
                                 </td>
                                 <td>
-                                    <input type="hidden" name="id" value="${cartItem.phone.id}">
-                                    <button class="btn btn-danger" type="button" onclick="deleteCartItem(${cartItem.phone.id})"><fmt:message key="button_delete" /></button>
+                                    <input type="hidden" name="id" value="${cartItem.book.id}">
+                                    <button class="btn btn-danger" type="button" onclick="deleteCartItem(${cartItem.book.id})"><fmt:message key="button_delete" /></button>
                                 </td>
                             </tr>
                         </c:forEach>

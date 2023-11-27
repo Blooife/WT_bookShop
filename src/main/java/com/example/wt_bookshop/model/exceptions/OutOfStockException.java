@@ -1,6 +1,7 @@
 package com.example.wt_bookshop.model.exceptions;
 
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.entities.book.Book;
+
 /**
  * @author nekit
  * @version 1.0
@@ -9,7 +10,7 @@ public class OutOfStockException extends Exception {
     /**
      * Phone that outOfStock
      */
-    private Phone phone;
+    private Book book;
     /**
      * Requested stock of phone
      */
@@ -21,12 +22,12 @@ public class OutOfStockException extends Exception {
 
     /**
      * Constructor of exception
-     * @param phone phone of exception
+     * @param book phone of exception
      * @param requestedStock requested stock of exception
      * @param availableStock available stock of exceptttion
      */
-    public OutOfStockException(Phone phone, int requestedStock, int availableStock) {
-        this.phone = phone;
+    public OutOfStockException(Book book, int requestedStock, int availableStock) {
+        this.book = book;
         this.requestedStock = requestedStock;
         this.availableStock = availableStock;
     }
@@ -39,8 +40,8 @@ public class OutOfStockException extends Exception {
         super(s);
     }
 
-    public Phone getProduct() {
-        return phone;
+    public Book getProduct() {
+        return book;
     }
 
     public int getRequestedStock() {

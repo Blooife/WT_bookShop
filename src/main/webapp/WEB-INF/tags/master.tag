@@ -23,11 +23,11 @@
         <div class="row">
             <div class="col-6">
                 <h1>
-                    <a style="font-family: 'Lobster'" class="text-light" href="<c:url value="/?command=Product_List"/>">
-                        Phonify
-                    </a>
+                    <p class="text-light">
+                        Books Shop
+                    </p>
                     <br>
-                    <a style="font-family: 'Ubuntu'" class="text-light">
+                    <a class="text-light">
                         <c:if test="${not empty sessionScope.login}">
                             <fmt:message key="master_username" />: ${sessionScope.login}
                         </c:if>
@@ -70,6 +70,10 @@
                             <button class="btn btn-light"> <fmt:message key="master_orders_page" /> </button>
                         </form>
                     </c:if>
+                    <form action="<c:url value="/"/>">
+                        <input type="hidden" name="command" value="product_list">
+                        <button class="btn btn-light"> <fmt:message key="master_catalog" /> </button>
+                    </form>
                 </div>
             </div>
             <div class="col-6">
@@ -85,9 +89,9 @@
             </div>
         </div>
         <div align="right">
-        <li style="color: white"><a class="btn btn-light" href="?sessionLocale=en"><fmt:message key="label.lang.en" /></a></li>
+        <li style="genre: white"><a class="btn btn-light" href="?sessionLocale=en"><fmt:message key="label.lang.en" /></a></li>
         <br>
-        <li style="color: white"><a class="btn btn-light" href="?sessionLocale=ru"><fmt:message key="label.lang.ru" /></a></li>
+        <li style="genre: white"><a class="btn btn-light" href="?sessionLocale=ru"><fmt:message key="label.lang.ru" /></a></li>
         <br>
         </div>
     </div>

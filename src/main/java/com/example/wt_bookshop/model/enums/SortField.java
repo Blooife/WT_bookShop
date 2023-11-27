@@ -8,15 +8,15 @@ public enum SortField {
     /**
      * Field of brand to sort
      */
-    brand,
+    bookName,
     /**
      * Field of model to sort
      */
-    model,
+    author,
     /**
      * Field of display size to sort
      */
-    displaySizeInches,
+    releaseYear,
     /**
      * Field of price to sort
      */

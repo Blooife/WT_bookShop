@@ -1,8 +1,8 @@
 package com.example.wt_bookshop.model.dao.impl;
 
-import com.example.wt_bookshop.model.dao.PhoneDao;
-import com.example.wt_bookshop.model.entities.phone.Phone;
-import com.example.wt_bookshop.model.entities.phone.PhonesExtractor;
+import com.example.wt_bookshop.model.dao.BookDao;
+import com.example.wt_bookshop.model.entities.book.Book;
+import com.example.wt_bookshop.model.entities.book.BooksExtractor;
 import com.example.wt_bookshop.model.enums.SortField;
 import com.example.wt_bookshop.model.enums.SortOrder;
 import com.example.wt_bookshop.model.exceptions.DaoException;
@@ -17,24 +17,24 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Using jdbc to work with phones
+ * Using jdbc to work with books
  *
- * @author nekit
+ * @author sasha
  * @version 1.0
  */
-public class JdbcPhoneDao implements PhoneDao {
+public class JdbcBookDao implements BookDao {
     /**
      * Instance of logger
      */
-    private static final Logger log = Logger.getLogger(PhoneDao.class);
+    private static final Logger log = Logger.getLogger(BookDao.class);
     /**
-     * Instance of phoneExtractor
+     * Instance of bookExtractor
      */
-    private PhonesExtractor phonesExtractor = new PhonesExtractor();
+    private BooksExtractor booksExtractor = new BooksExtractor();
     /**
-     * Instance of PhoneDao
+     * Instance of BookDao
      */
-    private static volatile PhoneDao instance;
+    private static volatile BookDao instance;
     /**
      * Instance of ConnectionPool
      */
@@ -42,37 +42,37 @@ public class JdbcPhoneDao implements PhoneDao {
     /**
      * SQL query to find phones by id
      */
-    private static final String GET_QUERY = "SELECT * FROM phones WHERE id = ?";
+    private static final String GET_QUERY = "SELECT * FROM books WHERE id = ?";
     /**
-     * SQL query to find all phones with available stock > 0, limit and offset
+     * SQL query to find all books with available stock > 0, limit and offset
      */
     private static final String SIMPLE_FIND_ALL_QUERY = "select ph.* " +
-            "from (select PHONES.* from PHONES " +
-            "left join STOCKS on PHONES.ID = STOCKS.PHONEID where STOCKS.STOCK - STOCKS.RESERVED > 0 and phones.price > 0 offset ? limit ?) ph";
+            "from (select BOOKS.* from BOOKS " +
+            "left join STOCKS on BOOKS.ID = STOCKS.BOOKID where STOCKS.STOCK - STOCKS.RESERVED > 0 and books.price > 0 offset ? limit ?) ph";
     /**
-     * SQL query to find all phones with available stock
+     * SQL query to find all books with available stock
      */
     private static final String FIND_WITHOUT_OFFSET_AND_LIMIT = "SELECT ph.* " +
-            "FROM (SELECT phones.* FROM phones " +
-            "LEFT JOIN stocks ON phones.id = stocks.phoneId WHERE stocks.stock - stocks.reserved > 0 ";
+            "FROM (SELECT books.* FROM books " +
+            "LEFT JOIN stocks ON books.id = stocks.bookId WHERE stocks.stock - stocks.reserved > 0 ";
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     /**
-     * SQL query to find number of phones
+     * SQL query to find number of books
      */
-    private static final String NUMBER_OF_PHONES_QUERY = "SELECT count(*) FROM PHONES LEFT JOIN STOCKS ON PHONES.ID = STOCKS.PHONEID WHERE STOCKS.STOCK - STOCKS.RESERVED > 0 AND phones.price > 0";
+    private static final String NUMBER_OF_PHONES_QUERY = "SELECT count(*) FROM BOOKS LEFT JOIN STOCKS ON BOOKS.ID = STOCKS.BOOKID WHERE STOCKS.STOCK - STOCKS.RESERVED > 0 AND books.price > 0";
 
     /**
      * Realisation of Singleton pattern
      *
-     * @return instance of PhoneDao
+     * @return instance of BookDao
      */
-    public static PhoneDao getInstance() {
+    public static BookDao getInstance() {
         if (instance == null) {
-            synchronized (PhoneDao.class) {
+            synchronized (BookDao.class) {
                 if (instance == null) {
-                    instance = new JdbcPhoneDao();
+                    instance = new JdbcBookDao();
                 }
             }
         }
@@ -80,15 +80,15 @@ public class JdbcPhoneDao implements PhoneDao {
     }
 
     /**
-     * Get phone by id from database
+     * Get book by id from database
      *
-     * @param key id of phone
-     * @return phone
+     * @param key id of book
+     * @return book
      * @throws DaoException throws when there is some errors during dao method execution
      */
     @Override
-    public Optional<Phone> get(Long key) throws DaoException {
-        Optional<Phone> phone;
+    public Optional<Book> get(Long key) throws DaoException {
+        Optional<Book> phone;
         Connection conn = null;
         PreparedStatement statement = null;
         try {
@@ -97,7 +97,7 @@ public class JdbcPhoneDao implements PhoneDao {
             statement = conn.prepareStatement(GET_QUERY);
             statement.setLong(1, key);
             ResultSet resultSet = statement.executeQuery();
-            phone = phonesExtractor.extractData(resultSet).stream().findAny();
+            phone = booksExtractor.extractData(resultSet).stream().findAny();
             log.log(Level.INFO, "Found phones by id in the database");
         } catch (SQLException ex) {
             log.log(Level.ERROR, "Error in get function", ex);
@@ -119,19 +119,19 @@ public class JdbcPhoneDao implements PhoneDao {
     }
 
     /**
-     * Find all phones from database
+     * Find all books from database
      *
-     * @param offset    - offset of found phones
-     * @param limit     - limit of found phones
-     * @param sortField - field to sort (model, brand, price, display size)
+     * @param offset    - offset of found books
+     * @param limit     - limit of found books
+     * @param sortField - field to sort (bookName, author, price, releaseYear)
      * @param sortOrder - sort order (asc or desc)
      * @param query     - query for find
-     * @return list of phones
+     * @return list of books
      * @throws DaoException throws when there is some errors during dao method execution
      */
     @Override
-    public List<Phone> findAll(int offset, int limit, SortField sortField, SortOrder sortOrder, String query) throws DaoException {
-        List<Phone> phones;
+    public List<Book> findAll(int offset, int limit, SortField sortField, SortOrder sortOrder, String query) throws DaoException {
+        List<Book> books;
         String sql = makeFindAllSQL(sortField, sortOrder, query);
         Connection conn = null;
         PreparedStatement statement = null;
@@ -142,7 +142,7 @@ public class JdbcPhoneDao implements PhoneDao {
             statement.setInt(1, offset);
             statement.setInt(2, limit);
             ResultSet resultSet = statement.executeQuery();
-            phones = phonesExtractor.extractData(resultSet);
+            books = booksExtractor.extractData(resultSet);
             log.log(Level.INFO, "Found all phones in the database");
         } catch (SQLException ex) {
             log.log(Level.ERROR, "Error in findAll", ex);
@@ -160,14 +160,14 @@ public class JdbcPhoneDao implements PhoneDao {
                 connectionPool.releaseConnection(conn);
             }
         }
-        return phones;
+        return books;
     }
 
     /**
-     * Find number of phones by query from database
+     * Find number of books by query from database
      *
      * @param query - query for find
-     * @return number of phones
+     * @return number of books
      * @throws DaoException throws when there is some errors during dao method execution
      */
     @Override
@@ -177,10 +177,10 @@ public class JdbcPhoneDao implements PhoneDao {
             sql = NUMBER_OF_PHONES_QUERY;
         } else {
             sql = NUMBER_OF_PHONES_QUERY + " AND " +
-                    "(LOWER(PHONES.BRAND) LIKE LOWER('" + query + "%') " +
-                    "OR LOWER(PHONES.BRAND) LIKE LOWER('% " + query + "%') " +
-                    "OR LOWER(PHONES.MODEL) LIKE LOWER('" + query + "%') " +
-                    "OR LOWER(PHONES.MODEL) LIKE LOWER('% " + query + "%'))";
+                    "(LOWER(BOOKS.BOOKNAME) LIKE LOWER('" + query + "%') " +
+                    "OR LOWER(BOOKS.BOOKNAME) LIKE LOWER('% " + query + "%') " +
+                    "OR LOWER(BOOKS.AUTHOR) LIKE LOWER('" + query + "%') " +
+                    "OR LOWER(BOOKS.AUTHOR) LIKE LOWER('% " + query + "%'))";
         }
         Connection conn = null;
         Statement statement = null;
@@ -225,12 +225,12 @@ public class JdbcPhoneDao implements PhoneDao {
             StringBuilder sql = new StringBuilder(FIND_WITHOUT_OFFSET_AND_LIMIT);
 
             if (query != null && !query.equals("")) {
-                sql.append("AND (" + "LOWER(PHONES.BRAND) LIKE LOWER('").append(query).append("%') ").
-                        append("OR LOWER(PHONES.BRAND) LIKE LOWER('% ").append(query).append("%') ").
-                        append("OR LOWER(PHONES.MODEL) LIKE LOWER('").append(query).append("%') ").
-                        append("OR LOWER(PHONES.MODEL) LIKE LOWER('% ").append(query).append("%')").append(") ");
+                sql.append("AND (" + "LOWER(BOOKS.BOOKNAME) LIKE LOWER('").append(query).append("%') ").
+                        append("OR LOWER(BOOKS.BOOKNAME) LIKE LOWER('% ").append(query).append("%') ").
+                        append("OR LOWER(BOOKS.AUTHOR) LIKE LOWER('").append(query).append("%') ").
+                        append("OR LOWER(BOOKS.AUTHOR) LIKE LOWER('% ").append(query).append("%')").append(") ");
             }
-            sql.append("AND PHONES.PRICE > 0 ");
+            sql.append("AND BOOKS.PRICE > 0 ");
             if (sortField != null) {
                 sql.append("ORDER BY ").append(sortField.name()).append(" ");
                 if (sortOrder != null) {

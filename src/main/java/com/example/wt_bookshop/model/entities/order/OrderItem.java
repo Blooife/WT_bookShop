@@ -1,19 +1,19 @@
 package com.example.wt_bookshop.model.entities.order;
 
-import com.example.wt_bookshop.model.entities.phone.Phone;
+import com.example.wt_bookshop.model.entities.book.Book;
 
 public class OrderItem {
     private Long id;
-    private Phone phone;
+    private Book book;
     private Order order;
     private int quantity;
 
-    public Phone getPhone() {
-        return phone;
+    public Book getBook() {
+        return book;
     }
 
-    public void setPhone(final Phone phone) {
-        this.phone = phone;
+    public void setBook(final Book book) {
+        this.book = book;
     }
 
     public Order getOrder() {
